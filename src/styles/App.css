@@ -1,0 +1,134 @@
+/* src/styles/App.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+  /* Variables de color para fácil mantenimiento */
+  --bg-dark: #1a1a2e; /* Fondo oscuro principal */
+  --bg-gradient-start: #16213e; /* Gradiente oscuro */
+  --bg-gradient-end: #0f3460;
+  --card-bg-dark: rgba(26, 26, 46, 0.7); /* Fondo de tarjeta semi-transparente */
+  --card-border: rgba(255, 255, 255, 0.1); /* Borde claro y sutil */
+  --text-light: #e0e0e0; /* Texto claro */
+  --text-dark: #a0a0a0; /* Texto más oscuro para detalles */
+  --accent-blue: #4a90e2; /* Azul de acento */
+  --accent-green: #2ecc71; /* Verde de completado */
+  --accent-red: #e74c3c; /* Rojo de eliminar/alta prioridad */
+  --accent-orange: #f39c12; /* Naranja de media prioridad */
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  color: var(--text-light);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column; /* Para que el header y el contenido se apilen */
+  align-items: center; /* Centrar contenido horizontalmente */
+  overflow-x: hidden; /* Evitar scroll horizontal no deseado */
+}
+
+#root {
+  width: 100%; /* El root de React también ocupa todo el ancho */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1; /* Permite que ocupe el espacio vertical restante */
+}
+
+.app-container {
+  background: var(--card-bg-dark); /* Fondo semi-transparente */
+  border: 1px solid var(--card-border); /* Borde sutil */
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+  width: 100%;
+  max-width: 700px; /* Aumentamos el ancho máximo */
+  text-align: center;
+  box-sizing: border-box;
+  margin-top: 30px; /* Espacio desde el header */
+  margin-bottom: 30px; /* Espacio inferior */
+  backdrop-filter: blur(10px); /* Efecto de cristal */
+  -webkit-backdrop-filter: blur(10px); /* Para compatibilidad Safari */
+}
+
+h1 {
+  color: var(--accent-blue);
+  margin-bottom: 30px;
+  font-weight: 700;
+  font-size: 2.8em; /* Un poco más grande */
+  letter-spacing: 1px;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Sombra para el título */
+}
+
+.no-tasks {
+  color: var(--text-dark);
+  font-style: italic;
+  margin-top: 20px;
+}
+
+/* Estilos de scrollbar personalizados (opcional) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-gradient-start);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-blue);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a7bd5;
+}
+
+.filter-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap; /* Para que los botones se envuelvan en pantallas pequeñas */
+}
+
+.filter-button {
+  background-color: rgba(0, 0, 0, 0.3); /* Fondo oscuro transparente */
+  color: var(--text-light);
+  padding: 10px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 600;
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.filter-button:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-color: var(--accent-blue);
+  transform: translateY(-2px);
+}
+
+.filter-button.active {
+  background-color: var(--accent-blue); /* Color de acento para el activo */
+  border-color: var(--accent-blue);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsividad para los botones de filtro */
+@media (max-width: 600px) {
+  .filter-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  .filter-button {
+    width: 80%; /* Ocupan la mayor parte del ancho */
+    max-width: 250px;
+  }
+}

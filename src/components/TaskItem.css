@@ -1,0 +1,176 @@
+/* src/components/TaskItem.css */
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3); /* Fondo oscuro semi-transparente */
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+  transition: all 0.3s ease;
+  border-left: 5px solid var(--accent-blue); /* Borde izquierdo azul por defecto */
+  backdrop-filter: blur(5px); /* Efecto de cristal para cada tarea */
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.task-item.completed {
+  background-color: rgba(46, 204, 113, 0.1); /* Fondo muy sutil verde */
+  border-left-color: var(--accent-green);
+  opacity: 0.7; /* Ligeramente más transparente */
+}
+
+.task-item.completed .task-text {
+  text-decoration: line-through;
+  color: var(--text-dark); /* Color de texto más oscuro */
+}
+
+.task-content {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.task-checkbox {
+  margin-right: 15px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--accent-blue);
+  filter: drop-shadow(0 0 3px rgba(74, 144, 226, 0.5)); /* Pequeña sombra en el checkbox */
+}
+
+.task-text {
+  font-size: 1.1em;
+  color: var(--text-light);
+  word-break: break-word;
+}
+
+.task-priority {
+  font-size: 0.85em;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 5px;
+  margin-left: auto;
+  margin-right: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Borde sutil */
+}
+
+/* Estilos específicos para cada prioridad */
+.priority-low .task-priority,
+.task-item.priority-low {
+  color: var(--accent-green);
+  background-color: rgba(46, 204, 113, 0.08); /* Fondo aún más sutil */
+  border-left-color: var(--accent-green);
+}
+
+.priority-medium .task-priority,
+.task-item.priority-medium {
+  color: var(--accent-orange);
+  background-color: rgba(243, 156, 18, 0.08);
+  border-left-color: var(--accent-orange);
+}
+
+.priority-high .task-priority,
+.task-item.priority-high {
+  color: var(--accent-red);
+  background-color: rgba(231, 76, 60, 0.08);
+  border-left-color: var(--accent-red);
+}
+
+/* Ajuste para tareas completadas con prioridad */
+.task-item.completed.priority-low .task-priority,
+.task-item.completed.priority-medium .task-priority,
+.task-item.completed.priority-high .task-priority {
+  opacity: 0.5; /* La prioridad también se atenúa */
+}
+
+.delete-button {
+  background-color: var(--accent-red);
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-left: 20px;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+  transform: translateY(-1px);
+}
+
+.delete-button:active {
+  transform: translateY(0);
+}
+
+/* Responsividad para task-item */
+@media (max-width: 500px) {
+  .task-item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+  }
+  .task-content {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .task-priority {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .task-meta {
+    width: 100%; /* Ocupa todo el ancho si los elementos se apilan */
+    justify-content: flex-start; /* Alinea a la izquierda */
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+
+  .delete-button {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+.task-meta {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Espacio entre prioridad y fecha */
+  margin-left: auto; /* Empuja el contenedor de meta a la derecha */
+}
+
+.task-due-date {
+  font-size: 0.9em;
+  color: var(--text-dark); /* Color más tenue */
+  background-color: rgba(255, 255, 255, 0.08); /* Fondo muy sutil */
+  padding: 4px 8px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.task-item.completed .task-due-date {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+.edit-task-input {
+  flex-grow: 1; /* Ocupa el espacio del texto original */
+  padding: 8px 12px; /* Un poco menos de padding que el input de añadir */
+  border: 2px solid var(--accent-blue); /* Borde de acento */
+  border-radius: 6px;
+  font-size: 1.1em;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo más oscuro transparente */
+  color: var(--text-light);
+  outline: none;
+}
+
+.edit-task-input::placeholder {
+  color: var(--text-dark);
+}

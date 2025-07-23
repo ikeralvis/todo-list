@@ -1,0 +1,30 @@
+/* src/components/Header.css */
+
+.app-header {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente oscuro */
+  padding: 20px 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px); /* Efecto de cristal para el header */
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center; /* Centrar el contenido del header */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Borde inferior sutil */
+}
+
+.header-content {
+  max-width: 1200px; /* Ancho máximo para el contenido dentro del header */
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px; /* Padding horizontal */
+}
+
+.app-title {
+  color: var(--accent-blue); /* Color de acento */
+  margin: 0;
+  font-size: 1.8em;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+}
