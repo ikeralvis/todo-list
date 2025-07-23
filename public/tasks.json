@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "text": "Planificar reunión semanal",
+    "completed": false,
+    "priority": "Alta",
+    "dueDate": "2025-07-25"
+  },
+  {
+    "id": 2,
+    "text": "Comprar víveres para la semana",
+    "completed": false,
+    "priority": "Media",
+    "dueDate": "2025-07-24"
+  },
+  {
+    "id": 3,
+    "text": "Enviar informe trimestral",
+    "completed": true,
+    "priority": "Alta",
+    "dueDate": "2025-07-20"
+  },
+  {
+    "id": 4,
+    "text": "Llamar a María",
+    "completed": false,
+    "priority": "Baja",
+    "dueDate": ""
+  },
+  {
+    "id": 5,
+    "text": "Hacer ejercicio por la mañana",
+    "completed": false,
+    "priority": "Media",
+    "dueDate": ""
+  },
+  {
+    "id": 6,
+    "text": "Leer un capítulo del libro de React",
+    "completed": true,
+    "priority": "Baja",
+    "dueDate": "2025-07-21"
+  }
+]
