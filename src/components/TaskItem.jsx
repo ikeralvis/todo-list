@@ -1,104 +1,108 @@
-import React, { useState } from 'react'; // Importa useState
+import React, { useState } from 'react';
 import './TaskItem.css';
 
-function TaskItem({ task, onToggleComplete, onDeleteTask, onEditTask }) { // Añade onEditTask
-  // Nuevo estado para el modo de edición
+function TaskItem({ task, onToggleComplete, onDeleteTask, onEditTask }) {
   const [isEditing, setIsEditing] = useState(false);
-  // Nuevo estado para el texto editado
   const [editedText, setEditedText] = useState(task.text);
+  const [editedPriority, setEditedPriority] = useState(task.priority);
+  const [editedDueDate, setEditedDueDate] = useState(task.dueDate);
 
-  const handleToggle = () => {
-    onToggleComplete(task.id);
-  };
-
-  const handleDelete = () => {
-    onDeleteTask(task.id);
-  };
-
-  const getPriorityClass = (priority) => {
-    switch (priority) {
-      case 'Alta':
-        return 'priority-high';
-      case 'Media':
-        return 'priority-medium';
-      case 'Baja':
-        return 'priority-low';
-      default:
-        return '';
-    }
-  };
-
-  const formatDate = (dateString) => {
-    if (!dateString) return null;
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('es-ES', options);
-  };
-
-  // Manejador para iniciar la edición (doble click)
   const handleDoubleClick = () => {
-    if (!task.completed) { // Solo permitir edición si la tarea no está completada
-      setIsEditing(true);
-    }
+    setIsEditing(true);
   };
 
-  // Manejador para guardar los cambios al presionar Enter o perder el foco
   const handleEditSubmit = () => {
     if (editedText.trim() === '') {
-      // Si el texto está vacío, podrías eliminar la tarea o revertir al texto original
-      onDeleteTask(task.id); // Opción: eliminar si queda vacío
-      // setEditedText(task.text); // O revertir
-    } else if (editedText !== task.text) { // Solo actualizar si el texto ha cambiado
-      onEditTask(task.id, editedText); // Llama a la función del padre
+      alert('La descripción de la tarea no puede estar vacía.');
+      setEditedText(task.text); // Vuelve al texto original
+      setIsEditing(false);
+      return;
     }
-    setIsEditing(false); // Sale del modo de edición
+    // Llama a la función onEditTask del padre (App.jsx)
+    // Pasamos todos los valores, incluso si no han cambiado, para simplificar.
+    // onEditTask(id, newText, newPriority, newDueDate, newProjectId)
+    onEditTask(task.id, editedText, editedPriority, editedDueDate, task.projectId); // Mantener el mismo projectId
+    setIsEditing(false);
   };
 
-  // Manejador para capturar la tecla Enter
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       handleEditSubmit();
     }
+    if (e.key === 'Escape') {
+      setIsEditing(false);
+      setEditedText(task.text); // Vuelve al texto original si cancela
+      setEditedPriority(task.priority); // Vuelve a la prioridad original
+      setEditedDueDate(task.dueDate); // Vuelve a la fecha original
+    }
   };
 
   return (
-    <li className={`task-item ${task.completed ? 'completed' : ''} ${getPriorityClass(task.priority)}`}>
+    <li className={`task-item ${task.completed ? 'completed' : ''}`}>
       <div className="task-content">
         <input
           type="checkbox"
           checked={task.completed}
-          onChange={handleToggle}
+          onChange={() => onToggleComplete(task.id)}
           className="task-checkbox"
         />
-        {isEditing && !task.completed ? ( // Si está editando y no completada, muestra input
+        {isEditing ? (
           <input
             type="text"
             value={editedText}
             onChange={(e) => setEditedText(e.target.value)}
-            onBlur={handleEditSubmit} // Guarda cuando el input pierde el foco
-            onKeyDown={handleKeyDown} // Guarda al presionar Enter
+            onBlur={handleEditSubmit} // Guarda al perder el foco
+            onKeyDown={handleKeyDown}
             className="edit-task-input"
-            autoFocus // Enfoca automáticamente el input al entrar en modo edición
+            autoFocus
           />
         ) : (
-          // Si no está editando, muestra el span con el texto
           <span className="task-text" onDoubleClick={handleDoubleClick}>
             {task.text}
           </span>
         )}
       </div>
+
       <div className="task-meta">
-        {task.priority && (
-          <span className={`task-priority ${getPriorityClass(task.priority)}`}>
-            {task.priority}
-          </span>
-        )}
-        {task.dueDate && (
-          <span className="task-due-date">
-            {formatDate(task.dueDate)}
-          </span>
+        {isEditing ? (
+          <>
+            <select
+              value={editedPriority}
+              onChange={(e) => setEditedPriority(e.target.value)}
+              onBlur={handleEditSubmit}
+              onKeyDown={handleKeyDown}
+              className="edit-task-select" // Nueva clase para el select de edición
+            >
+              <option value="Baja">Baja</option>
+              <option value="Media">Media</option>
+              <option value="Alta">Alta</option>
+            </select>
+            <input
+              type="date"
+              value={editedDueDate}
+              onChange={(e) => setEditedDueDate(e.target.value)}
+              onBlur={handleEditSubmit}
+              onKeyDown={handleKeyDown}
+              className="edit-task-date-input" // Nueva clase para el input de fecha de edición
+            />
+          </>
+        ) : (
+          <>
+            {task.priority && (
+              <span className={`task-priority priority-${task.priority.toLowerCase()}`}>
+                {task.priority}
+              </span>
+            )}
+            {task.dueDate && (
+              <span className="task-due-date">
+                {task.dueDate}
+              </span>
+            )}
+          </>
         )}
       </div>
-      <button onClick={handleDelete} className="delete-button">
+
+      <button onClick={() => onDeleteTask(task.id)} className="delete-button">
         Eliminar
       </button>
     </li>

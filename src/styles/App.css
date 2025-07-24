@@ -1,179 +1,370 @@
 /* src/styles/App.css */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-
+/* Variables CSS para la nueva paleta de colores y el estilo "cristal" */
 :root {
-  /* Variables de color para fácil mantenimiento */
-  --bg-dark: #1a1a2e; /* Fondo oscuro principal */
-  --bg-gradient-start: #16213e; /* Gradiente oscuro */
-  --bg-gradient-end: #0f3460;
-  --card-bg-dark: rgba(26, 26, 46, 0.7); /* Fondo de tarjeta semi-transparente */
-  --card-border: rgba(255, 255, 255, 0.1); /* Borde claro y sutil */
-  --text-light: #e0e0e0; /* Texto claro */
-  --text-dark: #a0a0a0; /* Texto más oscuro para detalles */
-  --accent-blue: #4a90e2; /* Azul de acento */
-  --accent-green: #2ecc71; /* Verde de completado */
-  --accent-red: #e74c3c; /* Rojo de eliminar/alta prioridad */
-  --accent-orange: #f39c12; /* Naranja de media prioridad */
+  --background-dark: #1a1a1a; /* Fondo muy oscuro, casi negro */
+  --background-gradient-start: #1a1a1a;
+  --background-gradient-end: #0a0a0a;
+
+  --glass-background-light: rgba(255, 255, 255, 0.08); /* Blanco muy translúcido para el efecto cristal (más sutil) */
+  --glass-background-dark: rgba(0, 0, 0, 0.3); /* Negro translúcido para elementos más oscuros */
+
+  --text-light: #e0e0e0; /* Texto claro para fondos oscuros */
+  --text-dark: #4a4a4a; /* Texto oscuro para fondos claros/cristal */
+  --text-medium: #888888; /* Gris medio para descripciones o texto secundario */
+
+  --accent-blue: #007bff; /* Azul vibrante para acentos y botones */
+  --accent-blue-dark: #0056b3; /* Azul más oscuro para hover */
+  --accent-red: #dc3545; /* Rojo para eliminar/peligro */
+  --accent-green: #28a745; /* Verde para completado */
+
+  --border-light: rgba(255, 255, 255, 0.1); /* Borde sutil claro */
+  --border-dark: rgba(0, 0, 0, 0.1); /* Borde sutil oscuro */
+
+  --shadow-light: rgba(0, 0, 0, 0.1); /* Sombra suave para elementos claros */
+  --shadow-dark: rgba(0, 0, 0, 0.4); /* Sombra más pronunciada para elementos flotantes */
+
+  --sidebar-width: 250px; /* Ancho del menú lateral */
+  --header-height: 60px; /* Altura del encabezado */
+  --form-height: 100px; /* Altura aproximada del formulario inferior */
+}
+
+/* Estilos globales y reseteo */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Ocupa toda la altura de la ventana */
+  overflow: hidden; /* Evita el scroll global */
 }
 
 body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  background: linear-gradient(135deg, var(--background-gradient-start) 0%, var(--background-gradient-end) 100%);
   color: var(--text-light);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column; /* Para que el header y el contenido se apilen */
-  align-items: center; /* Centrar contenido horizontalmente */
-  overflow-x: hidden; /* Evitar scroll horizontal no deseado */
 }
 
 #root {
-  width: 100%; /* El root de React también ocupa todo el ancho */
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-grow: 1; /* Permite que ocupe el espacio vertical restante */
+  flex-direction: column; /* Apila el header y el contenido principal */
 }
 
-.app-container {
-  background: var(--card-bg-dark); /* Fondo semi-transparente */
-  border: 1px solid var(--card-border); /* Borde sutil */
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+/* Header de la aplicación */
+.app-header {
   width: 100%;
-  max-width: 700px; /* Aumentamos el ancho máximo */
-  text-align: center;
+  height: var(--header-height); /* Altura fija */
+  background: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente oscuro */
+  box-shadow: 0 2px 10px var(--shadow-dark);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0; /* Evita que el header se encoja */
+  position: sticky; /* Fija el header en la parte superior */
+  top: 0;
+  z-index: 1000; /* Asegura que esté por encima de otros elementos */
+}
+
+.header-content {
+  max-width: 1200px;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.app-title {
+  color: var(--accent-blue);
+  margin: 0;
+  font-size: 1.8em;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+}
+
+/* Contenedor principal del layout (sidebar + contenido principal) */
+.main-layout {
+  display: flex;
+  flex-grow: 1; /* Ocupa el espacio restante verticalmente */
+  width: 100%;
+  overflow: hidden; /* Controla el scroll de sus hijos */
+}
+
+/* Área de contenido principal (excluyendo sidebar y formulario inferior) */
+.main-content-area {
+  flex-grow: 1; /* Ocupa el espacio restante horizontalmente */
+  display: flex;
+  flex-direction: column;
+  padding: 20px; /* Padding alrededor del contenido */
   box-sizing: border-box;
-  margin-top: 30px; /* Espacio desde el header */
-  margin-bottom: 30px; /* Espacio inferior */
-  backdrop-filter: blur(10px); /* Efecto de cristal */
-  -webkit-backdrop-filter: blur(10px); /* Para compatibilidad Safari */
+  overflow-y: auto; /* Permite scroll vertical si el contenido es largo */
+  padding-bottom: var(--form-height); /* Espacio para el formulario inferior */
+  position: relative; /* Para posicionar el formulario */
+}
+
+.tasks-and-filters-wrapper {
+  flex-grow: 1; /* Ocupa todo el espacio disponible por encima del formulario */
+  overflow-y: auto; /* ¡Este es el div que tendrá scroll! */
+  padding-bottom: 20px; /* Espacio al final de la lista antes del borde */
+}
+
+/* Contenedor de la lista de tareas */
+.task-list-container {
+  background-color: var(--glass-background-light);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 15px;
+  padding: 25px 20px;
+  box-shadow: 0 10px 20px var(--shadow-dark);
+  border: 1px solid var(--border-light);
+  margin-bottom: 20px; /* Espacio entre el final de la lista y el borde del contenedor */
+  max-width: 700px; /* Ancho máximo para la lista */
+  width: 100%;
+  margin: 0 auto; /* Centra la lista */
 }
 
 h1 {
-  color: var(--accent-blue);
-  margin-bottom: 30px;
+  color: var(--text-light);
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2.2em;
   font-weight: 700;
-  font-size: 2.8em; /* Un poco más grande */
-  letter-spacing: 1px;
-  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Sombra para el título */
 }
 
-.no-tasks {
-  color: var(--text-dark);
-  font-style: italic;
-  margin-top: 20px;
+.main-title-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px; /* Reducido un poco */
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-/* Estilos de scrollbar personalizados (opcional) */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-gradient-start);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--accent-blue);
-  border-radius: 5px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #3a7bd5;
+.pending-tasks-count {
+  background-color: var(--accent-blue);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  min-width: 80px;
+  text-align: center;
 }
 
+/* Controles de filtro */
 .filter-controls {
   display: flex;
   justify-content: center;
-  gap: 15px;
-  margin-bottom: 25px;
-  flex-wrap: wrap; /* Para que los botones se envuelvan en pantallas pequeñas */
+  gap: 12px;
+  margin-bottom: 20px; /* Espacio antes de la lista de tareas */
+  flex-wrap: wrap;
 }
 
 .filter-button {
-  background-color: rgba(0, 0, 0, 0.3); /* Fondo oscuro transparente */
+  background-color: var(--glass-background-dark);
   color: var(--text-light);
-  padding: 10px 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 18px;
+  border: 1px solid var(--border-light);
   border-radius: 8px;
   cursor: pointer;
-  font-size: 0.95em;
-  font-weight: 600;
-  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+  font-size: 0.9em;
+  font-weight: 500;
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 2px 5px var(--shadow-light);
 }
 
 .filter-button:hover {
-  background-color: rgba(0, 0, 0, 0.5);
-  border-color: var(--accent-blue);
-  transform: translateY(-2px);
-}
-
-.filter-button.active {
-  background-color: var(--accent-blue); /* Color de acento para el activo */
+  background-color: var(--accent-blue);
   border-color: var(--accent-blue);
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsividad para los botones de filtro */
-@media (max-width: 600px) {
-  .filter-controls {
-    flex-direction: column;
-    align-items: center;
-  }
-  .filter-button {
-    width: 80%; /* Ocupan la mayor parte del ancho */
-    max-width: 250px;
-  }
+.filter-button.active {
+  background-color: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
+/* Lista de tareas */
+.task-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.no-tasks {
+  text-align: center;
+  color: var(--text-medium);
+  font-style: italic;
+  margin-top: 30px;
+}
+
+/* Mensajes de carga y error */
 .loading-message,
 .error-message {
   font-size: 1.2em;
   font-weight: 600;
   margin-top: 50px;
-  color: var(--text-dark);
+  text-align: center;
+  color: var(--text-medium);
 }
 
 .error-message {
   color: var(--accent-red);
 }
 
-.main-title-container {
+/* Contenedor del formulario flotante en la parte inferior */
+.task-form-wrapper {
+  position: absolute; /* Posicionamiento absoluto respecto a main-content-area */
+  bottom: 0; /* Fijo en la parte inferior */
+  left: 0;
+  right: 0;
+  height: var(--form-area-height); /* Altura fija para el área del formulario */
+  padding: 20px; /* Padding interno */
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 15px; /* Espacio entre el título y el contador */
-  margin-bottom: 25px; /* Espacio debajo del título */
-  flex-wrap: wrap; /* Para que se envuelva en pantallas pequeñas */
-  justify-content: center; /* Centrar el contenido */
+  background: linear-gradient(to top, var(--background-dark) 60%, transparent); /* Gradiente para el desvanecimiento */
+  z-index: 999;
+  box-sizing: border-box; /* Incluye padding en la altura */
 }
 
-.pending-tasks-count {
-  background-color: var(--accent-blue); /* Color de acento */
+/* El formulario en sí */
+.task-form {
+  pointer-events: all; /* Habilita los clics en el formulario */
+  max-width: 600px; /* Mismo ancho que la lista de tareas */
+  width: 100%;
+  background-color: var(--glass-background-light);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 15px; /* Bordes redondeados */
+  padding: 20px 25px; /* Padding interno */
+  box-shadow: 0 5px 20px var(--shadow-dark); /* Sombra flotante */
+  border: 1px solid var(--border-light);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Estilos de los inputs del formulario */
+.task-input-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center; /* Centra los elementos */
+}
+
+.task-input,
+.priority-select,
+.due-date-input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  font-size: 1em;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: var(--text-light);
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  min-width: 120px; /* Ancho mínimo para que no se vea raro */
+}
+
+.task-input:focus,
+.priority-select:focus,
+.due-date-input:focus {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.task-input::placeholder {
+  color: var(--text-medium);
+}
+
+.priority-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23e0e0e0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+  cursor: pointer;
+}
+
+.priority-select option {
+  background-color: var(--background-dark);
+  color: var(--text-light);
+}
+
+.due-date-input {
+  filter: invert(1) hue-rotate(180deg) brightness(1.2); /* Hace el icono blanco */
+}
+
+.add-task-button {
+  background-color: var(--accent-blue);
   color: white;
-  padding: 5px 12px;
-  border-radius: 20px; /* Bordes redondeados para un look de "píldora" */
-  font-size: 0.9em;
-  font-weight: bold;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  min-width: 80px; /* Ancho mínimo para que no se vea raro con pocos números */
-  text-align: center;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 5px 10px rgba(0, 123, 255, 0.3);
+  width: 100%; /* El botón ocupa todo el ancho del formulario */
 }
 
-/* Ajuste para pantallas pequeñas si el título y contador se apilan */
-@media (max-width: 600px) {
-  .main-title-container {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+.add-task-button:hover {
+  background-color: var(--accent-blue-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 15px rgba(0, 123, 255, 0.4);
+}
+
+.add-task-button:disabled {
+  background-color: var(--text-medium);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Estilos de scrollbar personalizados */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-blue);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-blue-dark);
+}
+
+/* Responsividad para el layout general */
+@media (max-width: 768px) {
+  .main-layout {
+    flex-direction: column; /* Apila sidebar y contenido principal */
   }
-  .pending-tasks-count {
-    margin-top: 10px; /* Espacio entre el título y el contador si se apilan */
+  .main-content-area {
+    padding: 15px;
+  }
+  .task-list-container, .task-form {
+    max-width: 95%; /* Ocupa más ancho en móviles */
+    margin-left: auto;
+    margin-right: auto;
   }
 }

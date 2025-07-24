@@ -1,0 +1,17 @@
+[
+  {
+    "id": 101,
+    "name": "Trabajo",
+    "color": "#007bff"
+  },
+  {
+    "id": 102,
+    "name": "Personal",
+    "color": "#28a745"
+  },
+  {
+    "id": 103,
+    "name": "Estudios",
+    "color": "#ffc107"
+  }
+]

@@ -1,112 +1,114 @@
 /* src/components/TaskForm.css */
+/* Importar variables globales si TaskForm.css no está importado en App.css */
+/* Si App.css se importa en main.jsx y TaskForm.jsx importa TaskForm.css,
+   las variables de App.css estarán disponibles aquí. */
+@import url('../styles/App.css'); /* Asegura que las variables globales estén disponibles */
+
 .task-form {
+  max-width: 600px; /* Mismo ancho que la lista de tareas */
+  width: 100%;
+  background-color: var(--glass-background-light);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 15px; /* Bordes redondeados */
+  padding: 20px 25px; /* Padding interno */
+  box-shadow: 0 5px 20px var(--shadow-dark); /* Sombra flotante */
+  border: 1px solid var(--border-light);
+  box-sizing: border-box;
   display: flex;
-  gap: 10px;
-  margin-bottom: 30px;
-  flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
-  justify-content: center; /* Centra los elementos cuando se envuelven */
+  flex-direction: column;
+  gap: 15px;
 }
 
-.task-input {
-  flex-grow: 1;
+.task-input-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center; /* Centra los elementos */
+}
+
+.task-input,
+.task-select,
+.due-date-input {
+  flex: 1;
   padding: 12px 15px;
-  border: 2px solid rgba(255, 255, 255, 0.1); /* Borde más sutil */
+  border: 1px solid var(--border-light);
   border-radius: 8px;
   font-size: 1em;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: var(--text-light);
   outline: none;
-  background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro transparente */
-  color: var(--text-light); /* Texto claro */
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-  min-width: 200px; /* Asegura que el input tenga un tamaño mínimo */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  min-width: 120px; /* Ancho mínimo para que no se vea raro */
+}
+
+.task-input:focus,
+.task-select:focus,
+.due-date-input:focus {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
 
 .task-input::placeholder {
-  color: var(--text-dark); /* Color del texto de placeholder más oscuro */
+  color: var(--text-medium);
 }
 
-.task-input:focus {
-  border-color: var(--accent-blue);
-  background-color: rgba(0, 0, 0, 0.6); /* Fondo un poco más oscuro al enfocar */
-}
-
-.priority-select {
-  padding: 10px 15px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  font-size: 1em;
-  outline: none;
-  background-color: rgba(0, 0, 0, 0.4);
-  color: var(--text-light); /* Texto claro */
-  cursor: pointer;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
+.task-select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23e0e0e0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-6.5%200-12.3%203.2-16.1%208.1-3.8%204.9-4.9%2011-3.1%2016.2l128%20168c4.8%206.4%2014.4%206.4%2019.2%200l128-168c1.8-5.2.7-11.3-3.1-16.2z%22%2F%3E%3C%2Fsvg%3E'); /* Flecha SVG blanca para el tema oscuro */
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23e0e0e0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
   background-repeat: no-repeat;
-  background-position: right 15px center;
-  background-size: 12px;
+  background-position: right 10px center;
+  background-size: 20px;
+  cursor: pointer;
 }
 
-.priority-select option {
-  background-color: var(--bg-dark); /* Fondo oscuro para las opciones del select */
+.task-select option {
+  background-color: var(--background-dark);
   color: var(--text-light);
 }
 
-.priority-select:focus {
-  border-color: var(--accent-blue);
-  background-color: rgba(0, 0, 0, 0.6);
+.due-date-input {
+  filter: invert(1) hue-rotate(180deg) brightness(1.2); /* Hace el icono blanco */
 }
 
-.add-button {
+.add-task-button {
   background-color: var(--accent-blue);
   color: white;
   padding: 12px 20px;
   border: none;
   border-radius: 8px;
-  cursor: pointer;
-  font-size: 1em;
+  font-size: 1.1em;
   font-weight: 600;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 5px 10px rgba(0, 123, 255, 0.3);
+  width: 100%; /* El botón ocupa todo el ancho del formulario */
 }
 
-.add-button:hover {
-  background-color: #3a7bd5;
+.add-task-button:hover {
+  background-color: var(--accent-blue-dark);
   transform: translateY(-2px);
+  box-shadow: 0 7px 15px rgba(0, 123, 255, 0.4);
 }
 
-.add-button:active {
-  transform: translateY(0);
+.add-task-button:disabled {
+  background-color: var(--text-medium);
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 /* Responsividad para el formulario */
 @media (max-width: 600px) {
-  .task-form {
+  .task-input-group {
     flex-direction: column;
-    align-items: center;
+    gap: 15px;
   }
-  .task-input, .priority-select, .add-button {
-    width: 100%; /* Ocupan todo el ancho disponible */
-    max-width: 300px; /* Limitar el ancho en pantallas pequeñas */
+  .task-input,
+  .task-select,
+  .due-date-input {
+    flex-basis: auto;
+    width: 100%;
   }
 }
-.due-date-input {
-  padding: 10px 15px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  font-size: 1em;
-  outline: none;
-  background-color: rgba(0, 0, 0, 0.4);
-  color: var(--text-light);
-  cursor: pointer;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-  min-width: 150px; /* Asegura un ancho mínimo para el selector de fecha */
-  /* Estilos específicos para el icono del calendario en algunos navegadores */
-  filter: invert(1) hue-rotate(180deg) brightness(1.2); /* Hace el icono blanco */
-}
-
-.due-date-input:focus {
-  border-color: var(--accent-blue);
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
